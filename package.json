@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/eant/BNJS-MJ-N-145-Client#readme",
   "dependencies": {
+    "axios": "^0.21.0",
     "express": "^4.17.1",
     "express-handlebars": "^5.2.0",
     "nodemon": "^2.0.6"
