@@ -9,6 +9,8 @@ app.set('view engine', 'handlebars')
 
 app.listen(2000)
 app.use( express.static('public') )
+app.use( express.json() )
+app.use( express.urlencoded({ extended : true }) )
 
 app.get("/favicon.ico", (req, res) => {
     res.writeHead(404, { "Content-Type" : "text/plain" })
@@ -28,6 +30,27 @@ app.get("/panel", async (req, res) => {
     const { data : peliculas } = await axios.get('http://localhost:1000/api/v1/pelicula')
 
     res.render('panel', { titulo : "Catálogo de Películas", peliculas })
+})
+
+app.get("/panel/nueva", (req, res) => {
+
+    res.render('formulario')
+
+})
+
+app.post("/panel/nueva", async (req, res) => {
+
+    const { body : datos } = req
+
+    const { data } = await axios({
+        method : "POST",
+        url : "http://localhost:1000/api/v1/pelicula",
+        data : datos
+    })
+
+    console.log(data)
+
+    res.end("Mira la consola")
 })
 
 app.get('/:seccion?', (req, res) => {
