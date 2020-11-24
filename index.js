@@ -34,7 +34,7 @@ app.get("/panel", async (req, res) => {
 
 app.get("/panel/nueva", (req, res) => {
 
-    res.render('formulario')
+    res.render('formulario', { accion : "Agregar" })
 
 })
 
@@ -51,6 +51,27 @@ app.post("/panel/nueva", async (req, res) => {
     console.log(data)
 
     res.end("Mira la consola")
+})
+
+app.get("/panel/actualizar/:id", async (req, res) => {
+
+    const { id } = req.params
+
+    const { data } = await axios.get(`http://localhost:1000/api/v1/pelicula/${id}`)
+
+    if( data.ok ){
+
+        const pelicula = data.resultado[0]
+
+        res.render('formulario', {
+            accion : "Actualizar",
+            ...pelicula
+        })
+
+    } else {
+        res.redirect('/panel/error')
+    }
+
 })
 
 app.get('/:seccion?', (req, res) => {
